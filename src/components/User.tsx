@@ -157,9 +157,9 @@ const User = () => {
                           {index + 1}
                         </td>
                       </Link>
-                      <td className="text-sm md:text-base">{user.name}</td>
-                      <td className="text-sm md:text-base">{user.email}</td>
-                      <td className="text-sm md:text-base">{user.phone}</td>
+                      <td className="text-sm md:text-base"> <Link to={`/userDetails/${user.id}`}><span>{user.name}</span></Link></td>
+                      <td className="text-sm md:text-base"> <Link to={`/userDetails/${user.id}`}><span>{user.email}</span></Link></td>
+                      <td className="text-sm md:text-base"> <Link to={`/userDetails/${user.id}`}><span>{user.phone}</span></Link></td>
                       <td>
                         <div className="flex items-center justify-center space-x-2 p-2">
                           <button

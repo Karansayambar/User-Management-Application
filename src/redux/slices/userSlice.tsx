@@ -75,10 +75,13 @@ export const addUser = createAsyncThunk<UserData[], UserData>(
 
     const all: UserData[] = JSON.parse(localStorage.getItem("users") || "[]");
     const newUsers = all || [];
+    const lastUser = newUsers[newUsers.length - 1]
     const newuser = user;
-    const newid = newUsers.length + 1;
+    const newid = parseInt(lastUser.id) + 1;
     user.id = newid.toString();
     newUsers.push(newuser);
+
+    
 
     // Save new user to localStorage
     localStorage.setItem("users", JSON.stringify(newUsers));
