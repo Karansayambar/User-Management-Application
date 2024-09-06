@@ -10,13 +10,16 @@ import {
 } from "../redux/slices/userSlice";
 import { RotatingLines } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { AppDispatch, RootState } from "../redux/store";
+
 
 const User = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [isUpdateModal, setIsUpdateModal] = useState(false);
 
-  const { users, loading, error } = useSelector((state) => state.users);
+  const { users, loading, error } = useSelector((state:RootState) => state.users);
   const [user, setUser] = useState<UserData>({
+    id:"",
     name: "",
     email: "",
     phone: "",
@@ -37,7 +40,7 @@ const User = () => {
     },
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -45,7 +48,7 @@ const User = () => {
     }));
   };
 
-  const handleAddressChange = (e) => {
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -56,7 +59,7 @@ const User = () => {
     }));
   };
 
-  const handleCompanyChange = (e) => {
+  const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -67,22 +70,40 @@ const User = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     dispatch(updateUser(user));
-    toggleUpdateModal("closeModal", {});
+    toggleUpdateModal("closeModal", {
+      id : "",
+      name: "",
+      email: "",
+      phone: "",
+      address: {
+        street: "",
+        suite: "",
+        city: "",
+        zipcode: "",
+        geo: {
+          lat: "",
+          lng: "",
+        },
+      },
+      company: {
+        name: "",
+        catchPhrase: "",
+        bs: "",
+      },
+    });
   };
 
-  const toggleUpdateModal = (action, userToUpdate) => {
+  const toggleUpdateModal = (action: string, userToUpdate:UserData) => {
     if (action === "openModal") {
       setIsUpdateModal(true);
-      setUpdateUserId(userToUpdate.id);
       setUser(userToUpdate);
     } else {
       setIsUpdateModal(false);
       setUser(userToUpdate);
-      setUpdateUserId(null);
     }
     setIsUpdateModal(!isUpdateModal);
   };
@@ -92,7 +113,7 @@ const User = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchUsersData(users));
+    dispatch(fetchUsersData());
   }, [dispatch]);
 
   return (
@@ -102,9 +123,9 @@ const User = () => {
           <div className="flex justify-center mt-10">
             <RotatingLines
               visible={true}
-              height="96"
+             
               width="96"
-              color="grey"
+             
               strokeWidth="5"
               animationDuration="0.75"
               ariaLabel="rotating-lines-loading"
@@ -178,7 +199,27 @@ const User = () => {
               <button
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={() => toggleUpdateModal("closeModal", {})}
+                onClick={() => toggleUpdateModal("closeModal",{
+                  id: "",
+                  name: "",
+                  email: "",
+                  phone: "",
+                  address: {
+                    street: "",
+                    suite: "",
+                    city: "",
+                    zipcode: "",
+                    geo: {
+                      lat: "",
+                      lng: "",
+                    },
+                  },
+                  company: {
+                    name: "",
+                    catchPhrase: "",
+                    bs: "",
+                  },
+                })}
               >
                 <svg
                   className="w-3 h-3"

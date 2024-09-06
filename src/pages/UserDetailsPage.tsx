@@ -2,33 +2,31 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserById } from "../redux/slices/userSlice";
-import Navbar from "../components/Navbar";
 import { RotatingLines } from "react-loader-spinner";
+import { AppDispatch, RootState } from "../redux/store";
 
 const UserDetailsPage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { userDetails, loading, error } = useSelector((state) => state.users);
+  const dispatch = useDispatch<AppDispatch>();
+  const { userDetails, loading, error } = useSelector((state:RootState) => state.users);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchUserById(id));  // Fetch user by ID when component mounts
-      console.log(userDetails)
     }
   }, [dispatch, id]);
 
   return (
     <div>
-      <Navbar />
+     
       <div className=" w-[100%] flex items-center justify-center">
         {loading ? (
           <RotatingLines
           visible={true}
-          height="96"
-          width="96"
-          color="grey"
-          strokeWidth="5"
-          animationDuration="0.75"
+          // Should be a number
+          width={"96"}  // Should be a number
+          strokeWidth={"5"} // Should be a number
+          animationDuration={"0.75"} // Should be a number
           ariaLabel="rotating-lines-loading"
         />
         ) : error ? (
@@ -52,27 +50,12 @@ const UserDetailsPage = () => {
                   <td className="p-2 font-semibold">Email</td>
                   <td className="p-2">{userDetails.email}</td>
                 </tr>
-                <tr className="text-left">
-                  <td className="p-2 font-semibold">Username</td>
-                  <td className="p-2">{userDetails.username}</td>
-                </tr>
+                
                 <tr className="text-left">
                   <td className="p-2 font-semibold">Phone</td>
                   <td className="p-2">{userDetails.phone}</td>
                 </tr>
-                <tr className="text-left">
-                  <td className="p-2 font-semibold">Website</td>
-                  <td className="p-2">
-                    <a
-                      href={`http://${userDetails.website}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      {userDetails.website}
-                    </a>
-                  </td>
-                </tr>
+                
                 <tr className="bg-[#78B7D0] text-white">
                     <td colSpan={2} className="p-2 text-lg font-bold border-b">Address Details</td>
                 </tr>

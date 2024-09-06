@@ -5,8 +5,8 @@ export interface UserData {
   id: string;
   name: string;
   email: string;
-  phone: number;
-  address?: {
+  phone: string;
+  address: {
     street: string;
     suite: string;
     city: string;
@@ -16,7 +16,7 @@ export interface UserData {
       lng: string;
     };
   };
-  company?: {
+  company: {
     name: string;
     catchPhrase: string;
     bs: string;
@@ -90,7 +90,7 @@ export const addUser = createAsyncThunk<UserData[], UserData>(
 
 export const updateUser = createAsyncThunk<UserData[], UserData>(
   "users/addUser",
-  async (user: UserData) => {
+  async (user) => {
     const all: UserData[] = JSON.parse(localStorage.getItem("users") || "[]");
     const newUsers = all || [];
     const updateUsers = newUsers.map((prevUser) => {

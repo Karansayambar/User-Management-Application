@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { addUser, UserData } from "../redux/slices/userSlice";
+import { AppDispatch } from "../redux/store";
+interface FromModalProps {
+  onClose: () => void;
+}
 
-const FromModal = ({ onClose }) => {
-  const dispatch = useDispatch();
+const FromModal: React.FC<FromModalProps> = ({ onClose }) => {
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserData>({
+    id:"",
     name: "",
     email: "",
     phone: "",
@@ -26,7 +31,7 @@ const FromModal = ({ onClose }) => {
     },
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -34,7 +39,7 @@ const FromModal = ({ onClose }) => {
     }));
   };
 
-  const handleAddressChange = (e) => {
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -45,7 +50,7 @@ const FromModal = ({ onClose }) => {
     }));
   };
 
-  const handleCompanyChange = (e) => {
+  const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
@@ -56,10 +61,10 @@ const FromModal = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newUser = user;
-    dispatch(addUser(newUser));
+    
+    dispatch(addUser(user));
     onClose();
   };
 

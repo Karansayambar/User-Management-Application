@@ -1,5 +1,9 @@
 
-const Navbar = ({ onAddEmployeeClick }) => {
+
+interface NavbarProps {
+  onAddEmployeeClick: () => void;
+}
+const Navbar: React.FC<NavbarProps> = ({ onAddEmployeeClick }) => {
   return (
     <div className="flex w-full p-4 bg-[#FFDC7F] shadow-md">
       <div className="w-full flex items-center justify-between">
